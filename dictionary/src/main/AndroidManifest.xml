@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.astrov.yuri.dictionary.ChoiceLanguageActivity"
+            android:label="@string/title_activity_choice_language"
+            android:parentActivityName="com.astrov.yuri.dictionary.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="MainActivity" />
+        </activity>
     </application>
 
 </manifest>

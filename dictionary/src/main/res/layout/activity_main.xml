@@ -8,9 +8,62 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.astrov.yuri.dictionary.MainActivity">
 
-    <TextView
-        android:text="@string/hello_world"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:text="@string/hello_world"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editText"
+            android:layout_marginTop="20dp"
+            android:inputType="text"
+            android:hint="@string/text_field_hint" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:text="@string/from_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/v_from_lang" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lang_switch"
+                android:id="@+id/switch_lang_button" />
+
+            <TextView
+                android:text="@string/to_lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/v_to_lang" />
+        </LinearLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="276dp"
+            android:id="@+id/listView"
+            android:layout_marginRight="0dp" />
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_lang"
+            android:id="@+id/add_word_button" />
+    </LinearLayout>
 
 </RelativeLayout>
