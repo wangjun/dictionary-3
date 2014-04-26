@@ -23,6 +23,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static TextView t_from, t_to;
     private static final int REQUEST_FROM_LANG = 1;
     private static final int REQUEST_TO_LANG = 2;
+    private static final int REQUEST_TO_ADD_WORD = 3;
+    private static EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         t_to = (TextView) findViewById(R.id.v_to_lang);
         t_to.setText(to_lang);
         t_to.setOnClickListener(this);
-        EditText editText = (EditText) findViewById(R.id.editText);
+        editText = (EditText) findViewById(R.id.editText);
         editText.setOnEditorActionListener(this);
 
         Button addWord = (Button) findViewById(R.id.add_word_button);
@@ -106,23 +108,32 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 break;
             case R.id.add_word_button:
                 // Start Activity for add new word
-                //intent = new Intent(this, AddWordActivity.class);
-                //startActivity(intent);
+                intent = new Intent(this, AddWordActivity.class);
+                intent.putExtra("firstWord", editText.getText().toString());
+                startActivityForResult(intent, REQUEST_TO_ADD_WORD);
                 break;
         }
     }
     @Override
     protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            String lang = data.getStringExtra("lang");
+            String lang, firstWord, secondWord;
             switch (requestCode){
                 case REQUEST_FROM_LANG:
+                    lang = data.getStringExtra("lang");
                     from_lang = lang;
                     t_from.setText(lang);
                     break;
                 case REQUEST_TO_LANG:
+                    lang = data.getStringExtra("lang");
                     to_lang = lang;
                     t_to.setText(lang);
+                    break;
+                case REQUEST_TO_ADD_WORD:
+                    //from_lang = data.getStringExtra("from_lang");
+                    //to_lang = data.getStringExtra("to_lang");
+                    firstWord = data.getStringExtra("firstWord");
+                    secondWord = data.getStringExtra("secondWord");
                     break;
             }
         }
