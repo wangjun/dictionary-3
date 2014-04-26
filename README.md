@@ -1,0 +1,4 @@
+dictionary
+==========
+
+Dictionary for Android
