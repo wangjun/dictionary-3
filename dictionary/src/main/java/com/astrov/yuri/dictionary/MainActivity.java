@@ -6,14 +6,16 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.SharedPreferences;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
 
-import com.astrov.yuri.dictionary.ChoiceLanguageActivity;
-import com.astrov.yuri.dictionary.R;
+
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,
         EditText.OnEditorActionListener {
@@ -25,6 +27,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     private static final int REQUEST_TO_LANG = 2;
     private static final int REQUEST_TO_ADD_WORD = 3;
     private static EditText editText;
+    private static WordDB mDB;  // Our connection to the database.
+    private static ArrayAdapter<String> adapter;
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +54,15 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
         Button addWord = (Button) findViewById(R.id.add_word_button);
         addWord.setOnClickListener(this);
-    }
 
+        mDB = new WordDB(this);
+        mDB.open();
+        ListView listView = (ListView) findViewById(R.id.listView);
+        List<String> values = mDB.queryAll();
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, values);
+        listView.setAdapter(adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

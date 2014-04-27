@@ -11,6 +11,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WordDB {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "worddb";
@@ -32,7 +35,7 @@ public class WordDB {
 
 
     public static final String[] KEYS_ALL =
-        { WordDB.KEY_ROWID, WordDB.KEY_BASELANG, WordDB.KEY_TOLANG, WordDB.KEY_BASEWORD
+        { WordDB.KEY_ROWID, WordDB.KEY_BASELANG, WordDB.KEY_TOLANG, WordDB.KEY_BASEWORD,
          WordDB.KEY_TOWORD};
 
     private Context mContext;
@@ -87,13 +90,22 @@ public class WordDB {
 
 
     /** Returns a cursor for all the rows. Caller should close or manage the cursor. */
-    public Cursor queryAll() {
-        return mDatabase.query(DATABASE_TABLE,
+    public List<String> queryAll() {
+        Cursor cursor = mDatabase.query(DATABASE_TABLE,
                 KEYS_ALL,  // i.e. return all 4 columns
                 null, null, null, null,
                 WordDB.KEY_BASELANG + " ASC"  // order-by, "DESC" for descending
         );
-
+        cursor.moveToFirst();
+        List<String> result = new ArrayList<String>();
+        while (!cursor.isAfterLast()) {
+            String word  = cursor.getString(WordDB.INDEX_TOWORD);
+            result.add(word);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return result;
         // Could pass for third arg to filter in effect:
         // TodoDatabaseHelper.KEY_STATE + "=0"
 
@@ -112,11 +124,25 @@ public class WordDB {
         return cursor;
     }
     /* Returns a cursor for the given from_lang,to_lang, baseWord */
-    public Cursor queryWords (String from_lang, String to_lang, String baseWord) throws SQLException {
-        return mDatabase.query(DATABASE_TABLE, KEY_TOWORD,
-                KEY_BASELANG +"="+from_lang,
-                KEY_TOLANG +"="+ to_lang,
-                KEY_BASEWORD +"="+ baseWord);
+    public List<String> queryWords (String from_lang, String to_lang, String baseWord) throws SQLException {
+        String[] tableColumns = new String[] { KEY_TOWORD, };
+        //String whereClause = "column1 = ? OR column1 = ?";
+        Cursor cursor = mDatabase.query(DATABASE_TABLE, WordDB.KEYS_ALL,
+                KEY_BASELANG +"="+from_lang + " " +
+                KEY_TOLANG +"="+ to_lang  + " " +
+                 KEY_BASEWORD +"="+ baseWord,
+                null, null, null, null, null);
+
+        cursor.moveToFirst();
+        List<String> result = new ArrayList<String>();
+        while (!cursor.isAfterLast()) {
+            String word  = cursor.getString(WordDB.INDEX_TOWORD);
+            result.add(word);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return result;
     }
 
     /** Creates a ContentValues hash for our data. Pass in to create/update. */
@@ -130,40 +156,41 @@ public class WordDB {
         return values;
     }
 
-    // Helper for database open, create, upgrade.
-    // Here written as a private inner class to TodoDB.
-    private static class WordDBHelper extends SQLiteOpenHelper {
-        // SQL text to create table (basically just string or integer)
-        private static final String DATABASE_CREATE =
-                "create table " + DATABASE_TABLE + " (" +
-                        WordDB.KEY_ROWID + " integer primary key autoincrement, " +
-                        WordDB.KEY_BASELANG + " text not null, " +
-                        WordDB.KEY_TOLANG + " text not null," +
-                        WordDB.KEY_BASEWORD + " integer " +
-                        WordDB.KEY_TOWORD + " integer " +
-                        ");";
-
-        // SQLITE does not have a complex type system, so although "done" is a boolean
-        // to the app, here we store it as an integer with (0 = false)
 
 
-        public WordDBHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        }
+// Helper for database open, create, upgrade.
+// Here written as a private inner class to TodoDB.
+private class WordDBHelper extends SQLiteOpenHelper {
+    // SQL text to create table (basically just string or integer)
+    private static final String DATABASE_CREATE =
+            "create table " + WordDB.DATABASE_TABLE + " (" +
+                    WordDB.KEY_ROWID + " integer primary key autoincrement, " +
+                    WordDB.KEY_BASELANG + " text not null, " +
+                    WordDB.KEY_TOLANG + " text not null," +
+                    WordDB.KEY_BASEWORD + " text not null," +
+                    WordDB.KEY_TOWORD + " text not null " +
+                    ");";
 
-        /** Creates the initial (empty) database. */
-        @Override
-        public void onCreate(SQLiteDatabase database) {
-            database.execSQL(DATABASE_CREATE);
-        }
+    // SQLITE does not have a complex type system, so although "done" is a boolean
+    // to the app, here we store it as an integer with (0 = false)
 
 
-        /** Called at version upgrade time, in case we want to change/migrate
-         the database structure. Here we just do nothing. */
-        @Override
-        public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
-            // we do nothing for this case
-        }
+    public WordDBHelper(Context context) {
+        super(context, WordDB.DATABASE_NAME, null, WordDB.DATABASE_VERSION);
     }
 
+    /** Creates the initial (empty) database. */
+    @Override
+    public void onCreate(SQLiteDatabase database) {
+        database.execSQL(DATABASE_CREATE);
+    }
+
+
+    /** Called at version upgrade time, in case we want to change/migrate
+     the database structure. Here we just do nothing. */
+    @Override
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+        // we do nothing for this case
+    }
+}
 }
