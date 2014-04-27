@@ -146,6 +146,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     //to_lang = data.getStringExtra("to_lang");
                     firstWord = data.getStringExtra("firstWord");
                     secondWord = data.getStringExtra("secondWord");
+                    mDB.createWordRow(from_lang, to_lang, firstWord, secondWord);
                     break;
             }
         }
@@ -155,6 +156,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         // User press key. Here we search word from EditText in SQL
         String input = v.getText().toString();
+        List<String> list = mDB.queryWords(from_lang, to_lang, input);
+        adapter.clear();
+        adapter.addAll(list);
+        //ListView listView = (ListView) findViewById(R.id.listView);
         return false;
     }
 

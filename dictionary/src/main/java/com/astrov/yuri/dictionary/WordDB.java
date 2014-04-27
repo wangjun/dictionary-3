@@ -156,6 +156,12 @@ public class WordDB {
         return values;
     }
 
+    public long createWordRow(String from_lang, String to_lang, String baseWord,
+                              String toWord) {
+        return createRow(createContentValues(from_lang, to_lang, baseWord,
+                toWord));
+    }
+
 
 
 // Helper for database open, create, upgrade.
