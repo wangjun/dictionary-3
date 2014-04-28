@@ -2,10 +2,13 @@ package com.astrov.yuri.dictionary;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.SharedPreferences;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.content.Intent;
+import android.widget.Toast;
 
 
 import java.util.List;
@@ -50,6 +54,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         t_to.setText(to_lang);
         t_to.setOnClickListener(this);
         editText = (EditText) findViewById(R.id.editText);
+        editText.setRawInputType(InputType.TYPE_CLASS_TEXT);
+        editText.setImeOptions(EditorInfo.IME_ACTION_GO);
         editText.setOnEditorActionListener(this);
 
         Button addWord = (Button) findViewById(R.id.add_word_button);
@@ -147,6 +153,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                     firstWord = data.getStringExtra("firstWord");
                     secondWord = data.getStringExtra("secondWord");
                     mDB.createWordRow(from_lang, to_lang, firstWord, secondWord);
+                    Log.v(TAG, "REQUEST_TO_ADD_WORD");
+                    List<String> values = mDB.queryAll();
+                    adapter.clear();
+                    adapter.addAll(values);
                     break;
             }
         }
@@ -155,11 +165,21 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         // User press key. Here we search word from EditText in SQL
+        Log.v(TAG, "onEditorAction");
+        try{
         String input = v.getText().toString();
         List<String> list = mDB.queryWords(from_lang, to_lang, input);
         adapter.clear();
         adapter.addAll(list);
-        //ListView listView = (ListView) findViewById(R.id.listView);
+        } catch (NullPointerException e) {
+            Toast.makeText(getApplicationContext(), "No elements to show!", Toast.LENGTH_LONG)
+                    .show();
+        }
+        catch (Exception e) {
+            Log.v(TAG, e.getMessage());
+            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG)
+                    .show();
+        }
         return false;
     }
 

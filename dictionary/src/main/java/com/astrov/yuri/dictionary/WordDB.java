@@ -125,14 +125,14 @@ public class WordDB {
     }
     /* Returns a cursor for the given from_lang,to_lang, baseWord */
     public List<String> queryWords (String from_lang, String to_lang, String baseWord) throws SQLException {
-        String[] tableColumns = new String[] { KEY_TOWORD, };
-        //String whereClause = "column1 = ? OR column1 = ?";
+        String whereClause = WordDB.KEY_BASELANG + " = ? AND " +
+                            WordDB.KEY_TOLANG + " = ? AND " +
+                            WordDB.KEY_BASEWORD+" = ?";
         Cursor cursor = mDatabase.query(DATABASE_TABLE, WordDB.KEYS_ALL,
-                KEY_BASELANG +"="+from_lang + " " +
-                KEY_TOLANG +"="+ to_lang  + " " +
-                 KEY_BASEWORD +"="+ baseWord,
-                null, null, null, null, null);
-
+                whereClause,
+                new String[] { from_lang, to_lang, baseWord, },
+                null, null, null , null
+        );
         cursor.moveToFirst();
         List<String> result = new ArrayList<String>();
         while (!cursor.isAfterLast()) {
