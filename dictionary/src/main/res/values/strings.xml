@@ -17,8 +17,8 @@
         <item>De</item>
     </string-array>
 
-    <string name="title_activity_choice_language">ChoiceLanguageActivity</string>
-    <string name="title_activity_add_word">AddWordActivity</string>
+    <string name="title_activity_choice_language">Choice Language</string>
+    <string name="title_activity_add_word">Add Word</string>
     <string name="add_word">Add word to dictionary</string>
 
 </resources>
