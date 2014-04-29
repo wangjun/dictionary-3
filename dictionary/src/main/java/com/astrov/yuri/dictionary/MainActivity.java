@@ -128,6 +128,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
                 // Start Activity for add new word
                 intent = new Intent(this, AddWordActivity.class);
                 intent.putExtra("firstWord", editText.getText().toString());
+                intent.putExtra("to_lang", to_lang);
+                intent.putExtra("from_lang", from_lang);
                 startActivityForResult(intent, REQUEST_TO_ADD_WORD);
                 break;
         }

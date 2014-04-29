@@ -34,19 +34,21 @@
             android:weightSum="1">
 
             <TextView
+                style="@style/styleLangTextView"
                 android:text="@string/from_lang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/v_from_lang" />
 
             <Button
-                style="?android:attr/buttonStyleSmall"
+                style="@style/styleLangSwitchButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lang_switch"
                 android:id="@+id/switch_lang_button" />
 
             <TextView
+                style="@style/styleLangTextView"
                 android:text="@string/to_lang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,8 +61,8 @@
             android:id="@+id/listView"
             android:layout_marginRight="0dp" />
         <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            style="@style/styleAddWordButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/add_word"
             android:id="@+id/add_word_button" />
