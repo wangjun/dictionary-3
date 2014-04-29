@@ -22,6 +22,7 @@
     </style>
     <style name="styleLangTextView" parent="android:style/Widget.TextView">
         <item name="android:layout_weight">0.3</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>
