@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Dictionary</string>
+    <string name="hello_world">Dictionary application</string>
+    <string name="action_settings">Настройки</string>
+    <string name="lang_switch">Переключить язык</string>
+    <string name="text_field_hint">Введите слово и нажмите Ввод</string>
+    <string name="from_lang">From</string>
+    <string name="to_lang">To</string>
+
+    <string name="title_activity_choice_language">Выбор языка</string>
+    <string name="title_activity_add_word">Добавление слова</string>
+    <string name="add_word">Добавить слово в словарь</string>
+
+</resources>
