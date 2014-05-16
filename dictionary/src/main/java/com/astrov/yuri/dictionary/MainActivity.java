@@ -1,5 +1,7 @@
 package com.astrov.yuri.dictionary;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -20,6 +22,8 @@ import android.widget.Toast;
 
 
 import java.util.List;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener,
         EditText.OnEditorActionListener {
@@ -83,9 +87,27 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch( item.getItemId() ) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_drop_db_menu:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.dialog_drop_db_message)
+                        .setTitle(R.string.dialog_drop_db_title)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mDB.DropDB();
+                            }
+
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                ;
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

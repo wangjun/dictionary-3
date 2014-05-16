@@ -12,5 +12,10 @@
     <string name="title_activity_choice_language">Выбор языка</string>
     <string name="title_activity_add_word">Добавление слова</string>
     <string name="add_word">Добавить слово в словарь</string>
+    <string name="action_drop_db_menu">Очистить словарь</string>
+    <string name="dialog_drop_db_message">Очистить соварь?</string>
+    <string name="dialog_drop_db_title">Внимание</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Отмена</string>
 
 </resources>

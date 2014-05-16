@@ -20,5 +20,10 @@
     <string name="title_activity_choice_language">Choice Language</string>
     <string name="title_activity_add_word">Add Word</string>
     <string name="add_word">Add word to dictionary</string>
+    <string name="action_drop_db_menu">Clear dictionary db</string>
+    <string name="dialog_drop_db_message">Remove all from dictionary?</string>
+    <string name="dialog_drop_db_title">Attention</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
 </resources>

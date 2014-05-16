@@ -162,6 +162,9 @@ public class WordDB {
                 toWord));
     }
 
+    public void DropDB() {
+        mDatabase.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+    }
 
 
 // Helper for database open, create, upgrade.
