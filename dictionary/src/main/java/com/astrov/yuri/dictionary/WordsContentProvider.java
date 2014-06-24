@@ -2,13 +2,20 @@ package com.astrov.yuri.dictionary;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.UriMatcher;
 import android.database.Cursor;
 import android.net.Uri;
 
 public class WordsContentProvider extends ContentProvider {
+    public static final Uri CONTENT_URI = Uri.parse("com.astrov.yuri.wordsprovider");
+
     public WordsContentProvider() {
     }
-
+    private static final UriMatcher uriMatcher;
+    static {
+        uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+        uriMatcher.addURI(AUTHORITY, CONTACT_PATH, URI_CONTACTS);
+    }
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Implement this to handle requests to delete one or more rows.
