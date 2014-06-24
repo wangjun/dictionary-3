@@ -32,6 +32,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="MainActivity" />
         </activity>
+
+        <provider
+            android:name="com.astrov.yuri.dictionary.WordsContentProvider"
+            android:authorities="com.astrov.yuri.wordsprovider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
     </application>
 
 </manifest>
